@@ -121,6 +121,6 @@ class TaskController extends AbstractController
         $this->entityManager->remove($task);
         $this->entityManager->flush();
 
-        return $this->json(['message' => 'Task deleted successfully'], Response::HTTP_NO_CONTENT);
+        return $this->json(['message' => 'Task deleted successfully'], Response::HTTP_OK);
     }
 }
