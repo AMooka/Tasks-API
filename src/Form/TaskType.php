@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Task;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface as FormFormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+class TaskType extends AbstractType
+{
+    public function buildForm(FormFormBuilderInterface $builder, array $options)
+    {
+        $builder 
+        ->add('title', TextType::class, [
+            'label' => 'Title',
+            'constraints' => [
+            new NotBlank([
+                'message' => 'Title must exist.',
+            ]),
+            ]
+        ])
+        ->add('description', TextareaType::class, [
+            'label' => 'Description',
+            'constraints' => [
+            new NotBlank([
+                'message' => 'Description must exist.',
+            ]),
+            ]
+        ])
+        ->add('dueDate', DateType::class,[
+            'constraints' => [
+            new NotBlank([
+                'message' => 'Date can not be blank.',
+            ])
+            ]
+        ])
+        ->add('status', ChoiceType::class, [
+            'choices' => [
+                'Select Status' => 'select',
+                'To do' => 'To Do',
+                'Completed' => 'completed',
+                'In progress' => 'In progress',
+            ],
+            'constraints' => [
+            new NotBlank([
+                'message' => 'Please enter a title for the task.',
+            ]),
+            ]
+        ]);
+    }
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver -> setDefaults([
+            'data_class' => Task::class,
+        ]);
+    }
+}
